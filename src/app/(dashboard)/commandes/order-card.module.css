@@ -1,0 +1,370 @@
+.card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(248, 242, 236, 0.9)
+  );
+  border: 1px solid rgba(98, 24, 78, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 10px 22px rgba(74, 16, 57, 0.06);
+  overflow: hidden;
+  transition:
+    box-shadow 0.18s ease,
+    transform 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.card:hover {
+  box-shadow: 0 16px 30px rgba(74, 16, 57, 0.1);
+  border-color: rgba(98, 24, 78, 0.14);
+  transform: translateY(-2px);
+}
+
+.summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 18px 16px;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.summaryLeft {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.orderNumber {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: rgba(98, 24, 78, 0.6);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.customerMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.clientName {
+  display: block;
+  min-width: 0;
+  max-width: none;
+  font-weight: 800;
+  font-size: 1.18rem;
+  color: var(--text-primary);
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.customerDetail {
+  display: block;
+  font-size: 0.77rem;
+  color: var(--foret-70);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: normal;
+}
+
+.summaryRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.total {
+  flex-shrink: 0;
+  font-weight: 900;
+  color: var(--orange);
+  font-size: 1.1rem;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  background: rgba(240, 113, 59, 0.08);
+  border: 1px solid rgba(240, 113, 59, 0.12);
+  border-radius: 12px;
+  padding: 8px 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.chevron {
+  color: var(--violet-40);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.details {
+  border-top: 1px solid rgba(98, 24, 78, 0.1);
+  padding: 18px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.detailBox {
+  border: 1px dashed rgba(98, 24, 78, 0.24);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px 12px 10px;
+  position: relative;
+}
+
+.detailBox::before,
+.detailBox::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  height: 10px;
+  border: 1px dashed rgba(98, 24, 78, 0.16);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.detailBox::before {
+  top: -8px;
+}
+
+.detailBox::after {
+  bottom: -8px;
+  transform: rotate(180deg);
+}
+
+.detailHeader {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--violet);
+  margin-bottom: 10px;
+}
+
+.detailGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 14px;
+}
+
+.detailRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.label {
+  font-size: 0.7rem;
+  color: var(--foret-70);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.value {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.deliveryMeta,
+.clientMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--foret-70);
+}
+
+.infoItem svg {
+  color: var(--violet-40);
+}
+
+.noteTag {
+  background: rgba(98, 24, 78, 0.08);
+  color: var(--violet-dark);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(98, 24, 78, 0.08);
+}
+
+.itemsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+
+.itemsList li {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 7px;
+  border-bottom: 1px dashed rgba(98, 24, 78, 0.12);
+  color: var(--text-primary);
+  gap: 12px;
+}
+
+.deliveryLine {
+  font-weight: 700;
+  color: var(--vert-foret);
+  border-bottom: none !important;
+  padding-top: 2px;
+}
+
+.footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.metaStack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.createdBy,
+.timestamp {
+  font-size: 0.74rem;
+  color: var(--foret-70);
+  line-height: 1.4;
+}
+
+.timestamp {
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.editButton,
+.deleteButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(98, 24, 78, 0.12);
+  background: rgba(255, 255, 255, 0.35);
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.editButton:hover,
+.deleteButton:hover {
+  transform: translateY(-1px);
+}
+
+.editButton {
+  color: var(--violet);
+}
+
+.editButton:hover {
+  background: rgba(98, 24, 78, 0.06);
+  border-color: rgba(98, 24, 78, 0.18);
+}
+
+.deleteButton {
+  color: var(--orange);
+}
+
+.deleteButton:hover {
+  background: rgba(240, 113, 59, 0.06);
+  border-color: rgba(240, 113, 59, 0.18);
+}
+
+@media (max-width: 640px) {
+  .summary {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .summaryRight {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .total {
+    font-size: 1.05rem;
+    padding: 7px 8px;
+  }
+
+  .details {
+    padding: 14px 14px 16px;
+  }
+
+  .detailGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .detailRow {
+    padding-bottom: 6px;
+    border-bottom: 1px dashed rgba(98, 24, 78, 0.12);
+  }
+
+  .deliveryMeta,
+  .clientMeta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions {
+    width: 100%;
+  }
+
+  .editButton,
+  .deleteButton {
+    flex: 1;
+    justify-content: center;
+    min-height: 44px;
+  }
+}
