@@ -1,0 +1,92 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.requiredField .label {
+  color: var(--orange);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--vert-foret);
+  letter-spacing: 0.02em;
+}
+
+.helperText {
+  font-size: 0.7rem;
+  color: var(--foret-70);
+  font-style: italic;
+  line-height: 1.2;
+}
+
+.successPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(125, 165, 74, 0.14);
+  color: #3f7f2a;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.inputWrap {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  background: var(--surface);
+  color: var(--text-primary);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px var(--violet-15);
+}
+
+.requiredField .input {
+  border-color: rgba(240, 113, 59, 0.5);
+  background: rgba(243, 202, 178, 0.08);
+}
+
+.inputSuccess {
+  border-color: rgba(95, 155, 75, 0.54);
+  background: rgba(125, 165, 74, 0.04);
+}
+
+.inputError {
+  border-color: var(--orange);
+}
+
+.errorText {
+  font-size: 0.78rem;
+  color: var(--violet-dark);
+  margin: 0;
+  background: rgba(243, 202, 178, 0.24);
+  padding: 4px 8px;
+  border-radius: 6px;
+  width: fit-content;
+}
