@@ -7,6 +7,10 @@ const ARGON2_OPTIONS = {
   parallelism: 1,
 };
 
+export function normalizePasswordHash(passwordHash: string): string {
+  return passwordHash.replace(/\\\$/g, "$").trim();
+}
+
 export async function hashPassword(password: string): Promise<string> {
   return hash(password, ARGON2_OPTIONS);
 }
@@ -16,7 +20,8 @@ export async function verifyPassword(
   password: string,
 ): Promise<boolean> {
   try {
-    return await verify(passwordHash, password);
+    const normalizedHash = normalizePasswordHash(passwordHash);
+    return await verify(normalizedHash, password);
   } catch {
     return false;
   }
