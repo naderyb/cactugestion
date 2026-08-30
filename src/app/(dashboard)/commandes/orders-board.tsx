@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { OrderRow } from "@/lib/orders-queries";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { formatOrderNumber } from "@/lib/constants";
+import { subscribeToOrdersUpdates } from "@/lib/orders-sync";
 import { OrderForm } from "./order-form";
 import { OrderList } from "./order-list";
 import styles from "./orders-board.module.css";
@@ -33,6 +34,14 @@ export function OrdersBoard() {
 
   useEffect(() => {
     fetchOrders();
+  }, [fetchOrders]);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToOrdersUpdates(() => {
+      fetchOrders();
+    });
+
+    return unsubscribe;
   }, [fetchOrders]);
 
   useEffect(() => {
