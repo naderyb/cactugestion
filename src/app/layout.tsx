@@ -18,7 +18,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Cactuvia — Gestion des commandes",
+  title: "Cactuvia - Gestion des commandes",
   description: "Plateforme interne de gestion des commandes Cactuvia",
   robots: { index: false, follow: false },
 };
