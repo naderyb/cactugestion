@@ -1,0 +1,236 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.searchInput {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text-primary);
+  box-shadow: inset 0 1px 2px rgba(98, 24, 78, 0.03);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: rgba(98, 24, 78, 0.28);
+  box-shadow: 0 0 0 3px rgba(98, 24, 78, 0.08);
+}
+
+.statusTabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--border);
+  color: var(--foret-70);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.tab:hover {
+  border-color: rgba(98, 24, 78, 0.2);
+}
+
+.tabActive {
+  background: var(--violet);
+  border-color: var(--violet);
+  color: white;
+  box-shadow: 0 8px 18px rgba(98, 24, 78, 0.12);
+}
+
+.empty {
+  color: var(--foret-70);
+  padding: 40px 0;
+  text-align: center;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  border: 1px dashed rgba(98, 24, 78, 0.2);
+  background: rgba(255, 255, 255, 0.32);
+  border-radius: 18px;
+  padding: 34px 18px;
+  color: var(--foret-70);
+}
+
+.emptyIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: rgba(98, 24, 78, 0.06);
+  color: var(--violet);
+}
+
+.emptyState h3 {
+  font-size: 1.3rem;
+}
+
+.emptyState p {
+  margin: 0;
+  max-width: 420px;
+}
+
+.emptyButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(
+    180deg,
+    var(--violet) 0%,
+    var(--violet-dark) 100%
+  );
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(98, 24, 78, 0.12);
+}
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.skeletonCard {
+  height: 180px;
+  border-radius: 18px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(98, 24, 78, 0.06) 35%,
+    rgba(255, 255, 255, 0.2) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite linear;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  align-items: start;
+  animation: listFadeIn 0.25s ease;
+}
+
+@keyframes listFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.pageButton {
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--text-primary);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pageButton:hover:not(:disabled) {
+  border-color: rgba(98, 24, 78, 0.2);
+  background: rgba(98, 24, 78, 0.04);
+}
+
+.pageButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pageInfo {
+  color: var(--foret-70);
+  font-size: 0.82rem;
+  font-weight: 700;
+  min-width: 96px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .searchInput {
+    min-height: 48px;
+  }
+
+  .statusTabs {
+    gap: 6px;
+  }
+
+  .tab {
+    flex: 1 1 calc(50% - 6px);
+    min-height: 40px;
+    justify-content: center;
+  }
+
+  .emptyState {
+    padding: 26px 14px;
+  }
+
+  .emptyButton {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+  }
+
+  .cards,
+  .skeletonGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pageButton {
+    flex: 1;
+    min-height: 42px;
+  }
+}
