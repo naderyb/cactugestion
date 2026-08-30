@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { TextField } from "@/components/ui/text-field";
 import { SubmitButton } from "@/components/ui/submit-button";
+import { ProductPicker } from "./product-picker";
 import { WILAYAS, CLIENT_NOTES, DELIVERY_TYPES } from "@/lib/constants";
 import { formatPhoneDisplay } from "@/lib/format";
 import type { OrderRow } from "@/lib/orders-queries";
@@ -156,6 +157,43 @@ export function OrderForm({
 
   function removeItem(index: number) {
     setItems((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function handleProductPick(product: { name: string; price: number }) {
+    setItems((prev) => {
+      const existingIndex = prev.findIndex(
+        (it) => it.productName === product.name,
+      );
+      if (existingIndex !== -1) {
+        return prev.map((it, i) =>
+          i === existingIndex
+            ? { ...it, quantity: String((Number(it.quantity) || 0) + 1) }
+            : it,
+        );
+      }
+
+      const emptyIndex = prev.findIndex((it) => !it.productName.trim());
+      if (emptyIndex !== -1) {
+        return prev.map((it, i) =>
+          i === emptyIndex
+            ? {
+                productName: product.name,
+                quantity: "1",
+                unitPrice: String(product.price),
+              }
+            : it,
+        );
+      }
+
+      return [
+        ...prev,
+        {
+          productName: product.name,
+          quantity: "1",
+          unitPrice: String(product.price),
+        },
+      ];
+    });
   }
 
   function handlePhoneChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -340,16 +378,8 @@ export function OrderForm({
       </div>
 
       <div className={styles.itemsSection}>
-        <div className={styles.itemsHeader}>
-          <h3>Produits</h3>
-          <button
-            type="button"
-            className={styles.addItemButton}
-            onClick={addItem}
-          >
-            + Ajouter un produit
-          </button>
-        </div>
+        
+        <ProductPicker onPick={handleProductPick} />
 
         {items.map((item, index) => (
           <div key={index} className={styles.itemRow}>
