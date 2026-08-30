@@ -2,7 +2,7 @@ import { hash, verify } from "@node-rs/argon2";
 import { randomBytes, createHash } from "crypto";
 
 const ARGON2_OPTIONS = {
-  memoryCost: 19456, // 19 MiB — recommandation OWASP
+  memoryCost: 19456, // 19 MiB - recommandation OWASP
   timeCost: 2,
   parallelism: 1,
 };
