@@ -140,7 +140,7 @@ export function OrderCard({
 
           <div className={styles.footer}>
             <span className={styles.createdBy}>
-              Créée par {order.created_by_name ?? "—"}
+              Créée par {order.created_by_name ?? "-"}
             </span>
             <div className={styles.actions}>
               <button
