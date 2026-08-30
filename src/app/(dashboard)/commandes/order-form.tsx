@@ -329,7 +329,7 @@ export function OrderForm({
         <div className={styles.grid}>
           <TextField
             label="Prix de la livraison (DA)"
-            helperText="Optionnel — ajouté au total"
+            helperText="Optionnel - ajouté au total"
             type="number"
             min={0}
             step="0.01"
