@@ -1,0 +1,75 @@
+/* === CHARTE CACTUVIA (exacte) === */
+:root {
+  --violet: #62184e;
+  --vert-cactus: #bdcb79;
+  --vert-foret: #57562c;
+  --orange: #f0713b;
+  --peche: #f3cab2;
+  --ivoire: #f1ebe3;
+
+  --violet-90: rgba(98, 24, 78, 0.9);
+  --violet-70: rgba(98, 24, 78, 0.7);
+  --violet-40: rgba(98, 24, 78, 0.4);
+  --violet-15: rgba(98, 24, 78, 0.15);
+  --violet-dark: #4a1039;
+  --cactus-40: rgba(189, 203, 121, 0.4);
+  --foret-70: rgba(87, 86, 44, 0.7);
+
+  /* alias fonctionnels, pour ne jamais coder une couleur "en dur" ailleurs */
+  --bg: var(--ivoire);
+  --surface: #ffffff;
+  --text-primary: var(--violet-dark);
+  --text-muted: var(--foret-70);
+  --border: var(--violet-15);
+  --accent: var(--orange);
+  --success: var(--vert-cactus);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --shadow-soft: 0 4px 20px rgba(74, 16, 57, 0.08);
+  --shadow-hover: 0 8px 28px rgba(74, 16, 57, 0.14);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading), serif;
+  font-weight: 600;
+  color: var(--violet);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--cactus-40);
+}
