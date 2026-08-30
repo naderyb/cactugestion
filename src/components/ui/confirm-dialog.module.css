@@ -1,0 +1,138 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(123, 96, 109, 0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 50;
+  animation: fadeIn 0.28s ease;
+  backdrop-filter: blur(9px) saturate(0.8);
+  -webkit-backdrop-filter: blur(9px) saturate(0.8);
+}
+
+.dialog {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(95, 70, 82, 0.08);
+  border-radius: 18px;
+  padding: 28px 26px 22px;
+  max-width: 430px;
+  width: min(90vw, 430px);
+  box-shadow: 0 24px 48px rgba(77, 52, 62, 0.15);
+  animation: dialogIn 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dialog h3 {
+  font-size: clamp(1.05rem, 2vw, 1.6rem);
+  line-height: 1.2;
+  margin: 0 0 12px;
+  color: var(--foret);
+  font-weight: 700;
+  text-align: center;
+}
+
+.dialog p {
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: rgba(54, 39, 48, 0.72);
+  margin: 0 0 24px;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.cancel,
+.confirm,
+.danger {
+  min-width: 128px;
+  height: 46px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.cancel {
+  background: transparent;
+  border: 1.5px solid rgba(88, 67, 76, 0.22);
+  color: rgba(47, 32, 38, 0.8);
+}
+
+.confirm {
+  background: var(--violet);
+  color: white;
+  border: none;
+}
+
+.danger {
+  background: linear-gradient(180deg, #f07a47 0%, #eb6a35 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 10px 18px rgba(235, 106, 53, 0.24);
+}
+
+.cancel:hover,
+.confirm:hover,
+.danger:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+  .overlay {
+    padding: 16px;
+  }
+
+  .dialog {
+    width: min(88vw, 420px);
+    padding: 22px 20px 18px;
+    border-radius: 16px;
+  }
+
+  .dialog h3 {
+    font-size: 1.16rem;
+  }
+
+  .dialog p {
+    font-size: 0.92rem;
+  }
+
+  .actions {
+    gap: 10px;
+  }
+
+  .cancel,
+  .confirm,
+  .danger {
+    min-width: 110px;
+    height: 42px;
+    font-size: 0.94rem;
+  }
+}
