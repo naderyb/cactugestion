@@ -10,6 +10,7 @@ import {
 } from "@/lib/constants";
 import { formatPhoneDisplay } from "@/lib/format";
 import { StatusDropdown } from "@/components/ui/status-dropdown";
+import { notifyOrdersUpdated } from "@/lib/orders-sync";
 import styles from "./order-card.module.css";
 
 export function OrderCard({
@@ -44,6 +45,7 @@ export function OrderCard({
       body: JSON.stringify({ status: newStatus }),
     });
     setUpdating(false);
+    notifyOrdersUpdated();
     onStatusChanged();
   }
 
