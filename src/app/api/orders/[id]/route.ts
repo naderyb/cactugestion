@@ -30,6 +30,7 @@ export async function PATCH(
     deliveryType,
     clientNote,
     deliveryPrice,
+    totalOverride,
     items,
   } = parsed.data;
 
@@ -42,6 +43,7 @@ export async function PATCH(
       delivery_type = ${deliveryType},
       client_note = ${clientNote},
       delivery_price = ${deliveryPrice},
+      total_override = ${totalOverride},
       updated_by = ${user.id},
       updated_at = now()
     WHERE id = ${id}
@@ -55,7 +57,6 @@ export async function PATCH(
     );
   }
 
-  // On remplace tous les produits (plus simple et fiable qu'un diff)
   await sql`DELETE FROM order_items WHERE order_id = ${id}`;
   for (const item of items) {
     await sql`
