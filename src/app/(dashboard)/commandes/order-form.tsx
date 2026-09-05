@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { Trash2 } from "lucide-react";
 import { TextField } from "@/components/ui/text-field";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { ProductPicker } from "./product-picker";
@@ -91,8 +92,6 @@ interface ItemDraft {
   unitPrice: string;
 }
 
-const emptyItem: ItemDraft = { productName: "", quantity: "1", unitPrice: "" };
-
 export function OrderForm({
   mode,
   initialOrder,
@@ -131,7 +130,7 @@ export function OrderForm({
           quantity: String(it.quantity),
           unitPrice: String(it.unitPrice),
         }))
-      : [{ ...emptyItem }],
+      : [],
   );
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -143,16 +142,40 @@ export function OrderForm({
     return sum + quantity * price;
   }, 0);
   const deliveryFee = Number(deliveryPrice) || 0;
-  const liveTotal = subtotal + deliveryFee;
+  const computedTotal = subtotal + deliveryFee;
 
-  function updateItem(index: number, field: keyof ItemDraft, value: string) {
-    setItems((prev) =>
-      prev.map((it, i) => (i === index ? { ...it, [field]: value } : it)),
-    );
+  // Le total est éditable : tant que l'agent n'y touche pas, il suit
+  // automatiquement sous-total + livraison. Dès qu'il le modifie, cette
+  // valeur devient la source de vérité (utile pour une remise ponctuelle).
+  const [totalTouched, setTotalTouched] = useState(
+    initialOrder?.total_override != null,
+  );
+  const [totalValue, setTotalValue] = useState(
+    initialOrder?.total_override != null
+      ? String(initialOrder.total_override)
+      : String(computedTotal),
+  );
+
+  useEffect(() => {
+    if (!totalTouched) {
+      setTotalValue(String(computedTotal));
+    }
+  }, [computedTotal, totalTouched]);
+
+  function handleTotalChange(value: string) {
+    setTotalTouched(true);
+    setTotalValue(value);
   }
 
-  function addItem() {
-    setItems((prev) => [...prev, { ...emptyItem }]);
+  function resetTotal() {
+    setTotalTouched(false);
+    setTotalValue(String(computedTotal));
+  }
+
+  function updateQuantity(index: number, value: string) {
+    setItems((prev) =>
+      prev.map((it, i) => (i === index ? { ...it, quantity: value } : it)),
+    );
   }
 
   function removeItem(index: number) {
@@ -168,19 +191,6 @@ export function OrderForm({
         return prev.map((it, i) =>
           i === existingIndex
             ? { ...it, quantity: String((Number(it.quantity) || 0) + 1) }
-            : it,
-        );
-      }
-
-      const emptyIndex = prev.findIndex((it) => !it.productName.trim());
-      if (emptyIndex !== -1) {
-        return prev.map((it, i) =>
-          i === emptyIndex
-            ? {
-                productName: product.name,
-                quantity: "1",
-                unitPrice: String(product.price),
-              }
             : it,
         );
       }
@@ -219,19 +229,17 @@ export function OrderForm({
     }
 
     items.forEach((item, index) => {
-      if (!item.productName.trim()) {
-        nextErrors[`itemProduct-${index}`] = "Nom du produit requis.";
-      }
       if (!item.quantity.trim() || Number(item.quantity) <= 0) {
         nextErrors[`itemQuantity-${index}`] = "Quantité invalide.";
-      }
-      if (!item.unitPrice.trim() || Number(item.unitPrice) <= 0) {
-        nextErrors[`itemUnitPrice-${index}`] = "Prix invalide.";
       }
     });
 
     if (items.length === 0) {
-      nextErrors.items = "Ajoutez au moins un produit.";
+      nextErrors.items = "Ajoute au moins un produit depuis le catalogue.";
+    }
+
+    if (totalTouched && (!totalValue.trim() || Number(totalValue) < 0)) {
+      nextErrors.total = "Total invalide.";
     }
 
     return nextErrors;
@@ -257,6 +265,7 @@ export function OrderForm({
       deliveryType,
       clientNote,
       deliveryPrice: Number(deliveryPrice || 0),
+      totalOverride: totalTouched ? Number(totalValue || 0) : null,
       items: items.map((it) => ({
         productName: it.productName,
         quantity: Number(it.quantity),
@@ -292,6 +301,8 @@ export function OrderForm({
       setLoading(false);
     }
   }
+
+  const totalDiffersFromComputed = Number(totalValue || 0) !== computedTotal;
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
@@ -378,82 +389,55 @@ export function OrderForm({
       </div>
 
       <div className={styles.itemsSection}>
-        
-        <ProductPicker onPick={handleProductPick} />
+        <ProductPicker items={items} onPick={handleProductPick} />
+
+        {formErrors.items && (
+          <p className={styles.inlineError}>{formErrors.items}</p>
+        )}
 
         {items.map((item, index) => (
-          <div key={index} className={styles.itemRow}>
-            <div className={styles.fieldGroup}>
-              <input
-                className={`${styles.itemInput} ${
-                  formErrors[`itemProduct-${index}`]
-                    ? styles.itemInputError
-                    : ""
-                }`}
-                placeholder="Nom du produit"
-                value={item.productName}
-                onChange={(e) =>
-                  updateItem(index, "productName", e.target.value)
-                }
-                required
-              />
-              {formErrors[`itemProduct-${index}`] && (
-                <span className={styles.inlineError}>
-                  {formErrors[`itemProduct-${index}`]}
-                </span>
-              )}
-            </div>
-            <div className={styles.fieldGroup}>
-              <input
-                className={`${styles.itemInputSmall} ${
-                  formErrors[`itemQuantity-${index}`]
-                    ? styles.itemInputError
-                    : ""
-                }`}
-                type="number"
-                min={1}
-                placeholder="Qté"
-                value={item.quantity}
-                onChange={(e) => updateItem(index, "quantity", e.target.value)}
-                required
-              />
-              {formErrors[`itemQuantity-${index}`] && (
-                <span className={styles.inlineError}>
-                  {formErrors[`itemQuantity-${index}`]}
-                </span>
-              )}
-            </div>
-            <div className={styles.fieldGroup}>
-              <input
-                className={`${styles.itemInputSmall} ${
-                  formErrors[`itemUnitPrice-${index}`]
-                    ? styles.itemInputError
-                    : ""
-                }`}
-                type="number"
-                min={0}
-                step="0.01"
-                placeholder="Prix (DA)"
-                value={item.unitPrice}
-                onChange={(e) => updateItem(index, "unitPrice", e.target.value)}
-                required
-              />
-              {formErrors[`itemUnitPrice-${index}`] && (
-                <span className={styles.inlineError}>
-                  {formErrors[`itemUnitPrice-${index}`]}
-                </span>
-              )}
-            </div>
-            {items.length > 1 && (
+          <div key={index} className={styles.itemCard}>
+            <div className={styles.itemCardTop}>
+              <span className={styles.itemCardName}>{item.productName}</span>
               <button
                 type="button"
-                className={styles.removeButton}
+                className={styles.itemDeleteButton}
                 onClick={() => removeItem(index)}
-                aria-label="Retirer ce produit"
+                aria-label={`Retirer ${item.productName}`}
               >
-                ×
+                <Trash2 size={15} />
               </button>
-            )}
+            </div>
+
+            <div className={styles.itemCardBottom}>
+              <div className={styles.fieldGroup}>
+                <label className={styles.miniLabel}>Quantité</label>
+                <input
+                  className={`${styles.itemInputSmall} ${
+                    formErrors[`itemQuantity-${index}`]
+                      ? styles.itemInputError
+                      : ""
+                  }`}
+                  type="number"
+                  min={1}
+                  value={item.quantity}
+                  onChange={(e) => updateQuantity(index, e.target.value)}
+                  required
+                />
+                {formErrors[`itemQuantity-${index}`] && (
+                  <span className={styles.inlineError}>
+                    {formErrors[`itemQuantity-${index}`]}
+                  </span>
+                )}
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label className={styles.miniLabel}>Prix unitaire</label>
+                <div className={styles.itemPriceTag}>
+                  {Number(item.unitPrice).toLocaleString("fr-FR")} DA
+                </div>
+              </div>
+            </div>
           </div>
         ))}
 
@@ -466,12 +450,38 @@ export function OrderForm({
             <span>Livraison</span>
             <strong>{deliveryFee.toLocaleString("fr-FR")} DA</strong>
           </div>
+
           <div
             className={`${styles.totalSummaryRow} ${styles.totalSummaryRowFinal}`}
           >
             <span>Total</span>
-            <strong>{liveTotal.toLocaleString("fr-FR")} DA</strong>
+            <div className={styles.totalEditWrapper}>
+              <input
+                className={`${styles.totalInput} ${formErrors.total ? styles.itemInputError : ""}`}
+                type="number"
+                min={0}
+                step="0.01"
+                value={totalValue}
+                onChange={(e) => handleTotalChange(e.target.value)}
+              />
+              <span className={styles.totalCurrency}>DA</span>
+            </div>
           </div>
+
+          {formErrors.total && (
+            <p className={styles.inlineError}>{formErrors.total}</p>
+          )}
+
+          {totalTouched && totalDiffersFromComputed && (
+            <button
+              type="button"
+              className={styles.resetTotalButton}
+              onClick={resetTotal}
+            >
+              Revenir au calcul automatique (
+              {computedTotal.toLocaleString("fr-FR")} DA)
+            </button>
+          )}
         </div>
       </div>
 
