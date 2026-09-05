@@ -1,59 +1,90 @@
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .hint {
-    margin: 0;
-    font-size: 0.78rem;
-    color: var(--foret-70);
-    font-weight: 600;
-  }
-  
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 8px;
-  }
-  
-  .chip {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-    border: 1px solid rgba(98, 24, 78, 0.14);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(249, 244, 239, 0.85));
-    border-radius: var(--radius-sm);
-    padding: 9px 12px;
-    text-align: left;
-    transition: border-color 0.15s ease, transform 0.1s ease, background 0.15s ease;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--foret-70);
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.chip {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  border: 1px solid rgba(98, 24, 78, 0.14);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(249, 244, 239, 0.85));
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  text-align: left;
+  transition: border-color 0.15s ease, transform 0.1s ease, background 0.15s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
   .chip:hover {
     border-color: var(--violet-40);
     background: var(--violet-15);
     transform: translateY(-1px);
   }
-  
-  .chip:active {
-    transform: translateY(0) scale(0.98);
+}
+
+.chip:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.chipSelected {
+  border-color: var(--violet);
+  background: linear-gradient(
+    180deg,
+    rgba(189, 203, 121, 0.4),
+    rgba(189, 203, 121, 0.22)
+  );
+  box-shadow: 0 0 0 2px var(--violet-15);
+}
+
+.chipBadge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  background: var(--orange);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 800;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  box-shadow: 0 2px 6px rgba(74, 16, 57, 0.25);
+}
+
+.chipName {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.chipPrice {
+  font-size: 0.75rem;
+  color: var(--orange);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   }
-  
-  .chipName {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--text-primary);
-  }
-  
-  .chipPrice {
-    font-size: 0.75rem;
-    color: var(--orange);
-    font-weight: 700;
-  }
-  
-  @media (max-width: 768px) {
-    .grid {
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    }
-  }
+}
