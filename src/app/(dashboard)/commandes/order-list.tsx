@@ -11,7 +11,6 @@ export function OrderList({
   orders,
   loading,
   onStatusChanged,
-  onDeleted,
   onEdit,
   onCreateNew,
   onDeleteRequest,
@@ -19,7 +18,6 @@ export function OrderList({
   orders: OrderRow[];
   loading: boolean;
   onStatusChanged: () => void;
-  onDeleted: () => void;
   onEdit: (order: OrderRow) => void;
   onCreateNew: () => void;
   onDeleteRequest: (order: OrderRow) => void;
@@ -120,7 +118,6 @@ export function OrderList({
                 key={order.id}
                 order={order}
                 onStatusChanged={onStatusChanged}
-                onDeleted={onDeleted}
                 onEdit={onEdit}
                 onDeleteRequest={onDeleteRequest}
               />
