@@ -48,6 +48,12 @@ export const createOrderSchema = z.object({
     .min(0, "Prix invalide")
     .max(1_000_000)
     .default(0),
+  totalOverride: z
+    .union([
+      z.coerce.number().min(0, "Total invalide").max(10_000_000),
+      z.null(),
+    ])
+    .default(null),
   items: z.array(orderItemSchema).min(1, "Ajoute au moins un produit"),
 });
 
