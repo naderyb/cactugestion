@@ -16,13 +16,11 @@ import styles from "./order-card.module.css";
 export function OrderCard({
   order,
   onStatusChanged,
-  onDeleted,
   onEdit,
   onDeleteRequest,
 }: {
   order: OrderRow;
   onStatusChanged: () => void;
-  onDeleted: () => void;
   onEdit: (order: OrderRow) => void;
   onDeleteRequest: (order: OrderRow) => void;
 }) {
@@ -33,7 +31,9 @@ export function OrderCard({
     (sum, item) => sum + item.quantity * Number(item.unitPrice),
     0,
   );
-  const total = itemsTotal + Number(order.delivery_price ?? 0);
+  const computedTotal = itemsTotal + Number(order.delivery_price ?? 0);
+  const total =
+    order.total_override != null ? Number(order.total_override) : computedTotal;
   const noteLabel = CLIENT_NOTES.find(
     (c) => c.value === order.client_note,
   )?.label;
