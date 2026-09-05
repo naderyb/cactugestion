@@ -159,7 +159,6 @@ export function OrdersBoard() {
           orders={orders}
           loading={loading}
           onStatusChanged={fetchOrders}
-          onDeleted={fetchOrders}
           onEdit={openEditForm}
           onCreateNew={openCreateForm}
           onDeleteRequest={(order) => setPendingDeleteOrder(order)}
