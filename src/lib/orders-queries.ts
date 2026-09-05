@@ -18,6 +18,7 @@ export interface OrderRow {
   client_note: string;
   status: string;
   delivery_price: string;
+  total_override: string | null;
   created_at: string;
   created_by_name: string | null;
   items: OrderItemRow[];
@@ -36,6 +37,7 @@ export async function getAllOrders(): Promise<OrderRow[]> {
       o.client_note,
       o.status,
       o.delivery_price,
+      o.total_override,
       o.created_at,
       u.full_name AS created_by_name,
       COALESCE(
