@@ -303,6 +303,8 @@ export function OrderForm({
   }
 
   const totalDiffersFromComputed = Number(totalValue || 0) !== computedTotal;
+  const locationLabel =
+    deliveryType === "domicile" ? "Adresse exacte" : "Commune";
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
@@ -333,7 +335,7 @@ export function OrderForm({
         <div className={styles.sectionHeader}>Détails commande</div>
         <div className={styles.grid}>
           <TextField
-            label="Commune"
+            label={locationLabel}
             value={commune}
             onChange={(e) => setCommune(e.target.value)}
             required
