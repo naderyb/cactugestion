@@ -87,7 +87,9 @@ export function OrderCard({
 
             <div className={styles.detailGrid}>
               <div className={styles.detailRow}>
-                <span className={styles.label}>Adresse complète</span>
+                <span className={styles.label}>
+                  {order.delivery_type === "domicile" ? "Adresse exacte" : "Commune"}
+                </span>
                 <span className={styles.value}>{order.commune}</span>
               </div>
 
