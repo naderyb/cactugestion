@@ -35,6 +35,7 @@ export async function POST(request: NextRequest) {
     commune,
     deliveryType,
     clientNote,
+    agentNote,
     deliveryPrice,
     totalOverride,
     items,
@@ -43,11 +44,11 @@ export async function POST(request: NextRequest) {
   const created = await sql`
     INSERT INTO orders (
       client_full_name, client_phone, wilaya, commune,
-      delivery_type, client_note, delivery_price, total_override, created_by, updated_by
+      agent_note, delivery_type, client_note, delivery_price, total_override, created_by, updated_by
     )
     VALUES (
       ${clientFullName}, ${clientPhone}, ${wilaya}, ${commune},
-      ${deliveryType}, ${clientNote}, ${deliveryPrice}, ${totalOverride}, ${user.id}, ${user.id}
+      ${agentNote}, ${deliveryType}, ${clientNote}, ${deliveryPrice}, ${totalOverride}, ${user.id}, ${user.id}
     )
     RETURNING id, order_number
   `;
