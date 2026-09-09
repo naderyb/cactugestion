@@ -87,7 +87,7 @@ export function OrderCard({
 
             <div className={styles.detailGrid}>
               <div className={styles.detailRow}>
-                <span className={styles.label}>Commune</span>
+                <span className={styles.label}>Adresse complète</span>
                 <span className={styles.value}>{order.commune}</span>
               </div>
 
