@@ -43,6 +43,12 @@ export const createOrderSchema = z.object({
   commune: z.string().trim().min(1, "Commune requise").max(100),
   deliveryType: z.enum(["bureau", "domicile"]),
   clientNote: z.enum(["nouveau", "habituel", "fidele"]),
+  agentNote: z
+    .string()
+    .trim()
+    .max(500, "500 caractères maximum")
+    .optional()
+    .default(""),
   deliveryPrice: z.coerce
     .number()
     .min(0, "Prix invalide")
