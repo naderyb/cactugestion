@@ -519,3 +519,43 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+.noteFieldWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.optionalTag {
+  color: var(--foret-70);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.noteTextarea {
+  width: 100%;
+  border: 1px solid rgba(98, 24, 78, 0.16);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(249, 244, 239, 0.82));
+  color: var(--text-primary);
+  padding: 11px 13px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+  min-height: 70px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.noteTextarea:focus {
+  outline: none;
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px var(--violet-15);
+}
+
+.noteCounter {
+  align-self: flex-end;
+  font-size: 0.7rem;
+  color: var(--foret-70);
+}
