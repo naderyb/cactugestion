@@ -368,3 +368,29 @@
     min-height: 44px;
   }
 }
+
+.noteBox {
+  background: var(--peche);
+  border-left: 3px solid var(--orange);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.noteBoxLabel {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--violet-dark);
+}
+
+.noteBoxText {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
