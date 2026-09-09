@@ -16,6 +16,7 @@ export interface OrderRow {
   commune: string;
   delivery_type: string;
   client_note: string;
+  agent_note: string | null;
   status: string;
   delivery_price: string;
   total_override: string | null;
@@ -35,6 +36,7 @@ export async function getAllOrders(): Promise<OrderRow[]> {
       o.commune,
       o.delivery_type,
       o.client_note,
+      o.agent_note,
       o.status,
       o.delivery_price,
       o.total_override,
