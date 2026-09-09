@@ -115,4 +115,5 @@ export const PRODUCTS: Product[] = [
   { name: "Écran total", price: 1500 },
   { name: "Eau de rose", price: 800 },
   { name: "Lotion nettoyante", price: 1200 },
+  { name: "Gel de cactus", price: 1200 },
 ];
