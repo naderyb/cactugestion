@@ -33,7 +33,10 @@ export function OrderCard({
   );
   const computedTotal = itemsTotal + Number(order.delivery_price ?? 0);
   const total =
-    order.total_override != null ? Number(order.total_override) : computedTotal;
+    order.total_override != null &&
+    (Number(order.total_override) !== 0 || computedTotal === 0)
+      ? Number(order.total_override)
+      : computedTotal;
   const noteLabel = CLIENT_NOTES.find(
     (c) => c.value === order.client_note,
   )?.label;
@@ -121,6 +124,12 @@ export function OrderCard({
               </div>
             </div>
           </div>
+          {order.agent_note && order.agent_note.trim() !== "" && (
+            <div className={styles.noteBox}>
+              <span className={styles.noteBoxLabel}>Remarque</span>
+              <p className={styles.noteBoxText}>{order.agent_note}</p>
+            </div>
+          )}
 
           <ul className={styles.itemsList}>
             {order.items.map((item) => (
