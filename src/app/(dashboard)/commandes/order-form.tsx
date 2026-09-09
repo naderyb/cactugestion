@@ -120,6 +120,7 @@ export function OrderForm({
     (initialOrder?.client_note as "nouveau" | "habituel" | "fidele") ??
       "nouveau",
   );
+  const [agentNote, setAgentNote] = useState(initialOrder?.agent_note ?? "");
   const [deliveryPrice, setDeliveryPrice] = useState(
     initialOrder ? String(initialOrder.delivery_price ?? "0") : "0",
   );
@@ -264,6 +265,7 @@ export function OrderForm({
       commune,
       deliveryType,
       clientNote,
+      agentNote: agentNote.trim(),
       deliveryPrice: Number(deliveryPrice || 0),
       totalOverride: totalTouched ? Number(totalValue || 0) : null,
       items: items.map((it) => ({
@@ -372,6 +374,22 @@ export function OrderForm({
               setClientNote(value as "nouveau" | "habituel" | "fidele")
             }
           />
+        </div>
+        
+        <div className={styles.noteFieldWrapper}>
+          <label className={styles.miniLabel} htmlFor="agent-note">
+            Remarque <span className={styles.optionalTag}>(optionnel)</span>
+          </label>
+          <textarea
+            id="agent-note"
+            className={styles.noteTextarea}
+            placeholder="Ex: le client veut la couleur rose, a demandé à être livré après 17h..."
+            value={agentNote}
+            onChange={(e) => setAgentNote(e.target.value)}
+            maxLength={500}
+            rows={3}
+          />
+          <span className={styles.noteCounter}>{agentNote.length}/500</span>
         </div>
       </div>
 
