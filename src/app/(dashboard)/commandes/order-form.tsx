@@ -5,7 +5,12 @@ import { Trash2 } from "lucide-react";
 import { TextField } from "@/components/ui/text-field";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { ProductPicker } from "./product-picker";
-import { WILAYAS, CLIENT_NOTES, DELIVERY_TYPES } from "@/lib/constants";
+import {
+  WILAYAS,
+  CLIENT_NOTES,
+  DELIVERY_TYPES,
+  DELIVERY_PRICES,
+} from "@/lib/constants";
 import { formatPhoneDisplay } from "@/lib/format";
 import type { OrderRow } from "@/lib/orders-queries";
 import styles from "./order-form.module.css";
@@ -114,9 +119,7 @@ export function OrderForm({
   const [deliveryType, setDeliveryType] = useState<"bureau" | "domicile">(
     (initialOrder?.delivery_type as "bureau" | "domicile") ?? "bureau",
   );
-  const [clientNote, setClientNote] = useState<
-    "nouveau" | "habituel" | "fidele"
-  >(
+  const [clientNote, setClientNote] = useState<"nouveau" | "habituel" | "fidele" >(
     (initialOrder?.client_note as "nouveau" | "habituel" | "fidele") ??
       "nouveau",
   );
@@ -136,6 +139,25 @@ export function OrderForm({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+
+  // Tarif automatique selon la wilaya + le type de livraison choisis.
+  const tariff = DELIVERY_PRICES[wilaya];
+  const tariffPrice = tariff ? tariff[deliveryType] : null;
+  const tariffUnavailable = tariffPrice == null;
+
+  // En mode édition, on ne veut pas écraser le prix déjà enregistré à
+  // l'ouverture du formulaire — seulement quand l'agent change vraiment
+  // la wilaya ou le type de livraison ensuite.
+  const skipInitialTariffSync = useRef(mode === "edit");
+
+  useEffect(() => {
+    if (skipInitialTariffSync.current) {
+      skipInitialTariffSync.current = false;
+      return;
+    }
+    setDeliveryPrice(tariffPrice != null ? String(tariffPrice) : "0");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wilaya, deliveryType]);
 
   const subtotal = items.reduce((sum, item) => {
     const quantity = Number(item.quantity) || 0;
@@ -221,8 +243,9 @@ export function OrderForm({
 
     if (!clientPhone.trim()) {
       nextErrors.clientPhone = "Le numéro de téléphone est requis.";
-    } else if (clientPhone.length !== 10) {
-      nextErrors.clientPhone = "Le numéro doit contenir 10 chiffres.";
+    } else if (!/^0[5-7][0-9]{8}$/.test(clientPhone)) {
+      nextErrors.clientPhone =
+        "Numéro invalide : il doit commencer par 05, 06 ou 07 et il doit contenir 10 chiffres.";
     }
 
     if (!commune.trim()) {
@@ -363,48 +386,51 @@ export function OrderForm({
             }
           />
 
-          <CustomSelect
-            label="Note du client"
-            value={clientNote}
-            options={CLIENT_NOTES.map((c) => ({
-              value: c.value,
-              label: c.label,
-            }))}
-            onChange={(value) =>
-              setClientNote(value as "nouveau" | "habituel" | "fidele")
-            }
-          />
-        </div>
-        
-        <div className={styles.noteFieldWrapper}>
-          <label className={styles.miniLabel} htmlFor="agent-note">
-            Remarque <span className={styles.optionalTag}>(optionnel)</span>
-          </label>
-          <textarea
-            id="agent-note"
-            className={styles.noteTextarea}
-            placeholder="Ex: le client veut la couleur rose, a demandé à être livré après 17h..."
-            value={agentNote}
-            onChange={(e) => setAgentNote(e.target.value)}
-            maxLength={500}
-            rows={3}
-          />
-          <span className={styles.noteCounter}>{agentNote.length}/500</span>
-        </div>
-      </div>
-
-      <div className={styles.sectionCard}>
-        <div className={styles.sectionHeader}>Livraison</div>
-        <div className={styles.grid}>
           <TextField
             label="Prix de la livraison (DA)"
-            helperText="Optionnel - ajouté au total"
+            helperText={
+              tariffUnavailable
+                ? "Zone non couverte par le tarif standard — vérifie avec le transporteur"
+                : `Tarif ${deliveryType === "bureau" ? "bureau" : "domicile"} pour ${wilaya}`
+            }
+            helperTone={tariffUnavailable ? "warning" : "neutral"}
+            hideSuccessIndicator
             type="number"
             min={0}
             step="0.01"
             value={deliveryPrice}
             onChange={(e) => setDeliveryPrice(e.target.value)}
           />
+
+          <div className={styles.spanFull}>
+            <CustomSelect
+              label="Note du client"
+              value={clientNote}
+              options={CLIENT_NOTES.map((c) => ({
+                value: c.value,
+                label: c.label,
+              }))}
+              onChange={(value) =>
+                setClientNote(value as "nouveau" | "habituel" | "fidele")
+              }
+            />
+          </div>
+
+          <div className={styles.spanFull}>
+            <label className={styles.miniLabel} htmlFor="agent-note">
+              Remarque <span className={styles.optionalTag}>(optionnel)</span>
+            </label>
+            <textarea
+              id="agent-note"
+              className={styles.noteTextarea}
+              placeholder="Ex: le client veut la couleur rose, a demandé à être livré après 17h..."
+              value={agentNote}
+              onChange={(e) => setAgentNote(e.target.value)}
+              maxLength={500}
+              rows={3}
+            />
+            <span className={styles.noteCounter}>{agentNote.length}/500</span>
+          </div>
         </div>
       </div>
 
